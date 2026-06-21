@@ -17,10 +17,18 @@ from inference_perf.config.common import StrictBaseModel
 from pydantic import Field
 
 
+class PerRequestFieldsConfig(StrictBaseModel):
+    request: bool = True
+    response: bool = True
+    info: bool = True
+    response_chunks: bool = True
+
+
 class RequestLifecycleMetricsReportConfig(StrictBaseModel):
     summary: Optional[bool] = Field(default=True, description="Generate a summary report across the whole run.")
     per_stage: Optional[bool] = Field(default=True, description="Generate a report for each load stage.")
     per_request: Optional[bool] = Field(default=False, description="Generate a report with per-request details.")
+    per_request_fields: PerRequestFieldsConfig = Field(default_factory=PerRequestFieldsConfig)
     per_adapter: Optional[bool] = Field(default=True, description="Generate a report for each LoRA adapter.")
     per_adapter_stage: Optional[bool] = Field(
         default=False, description="Generate a report for each LoRA adapter within each load stage."
@@ -37,8 +45,6 @@ class RequestLifecycleMetricsReportConfig(StrictBaseModel):
         description="Cap on the number of distinct example error messages retained per error label in the failure "
         "report, and per substitution entry.",
     )
-
-
 class PrometheusMetricsReportConfig(StrictBaseModel):
     summary: Optional[bool] = Field(default=True, description="Generate a summary report across the whole run.")
     per_stage: Optional[bool] = Field(default=False, description="Generate a report for each load stage.")
