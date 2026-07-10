@@ -22,6 +22,7 @@ class PerRequestFieldsConfig(StrictBaseModel):
     response: bool = True
     info: bool = True
     response_chunks: bool = True
+    computed_metrics: bool = False
 
 
 class RequestLifecycleMetricsReportConfig(StrictBaseModel):
