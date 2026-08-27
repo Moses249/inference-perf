@@ -82,7 +82,7 @@ These command line flags are automatically generated from the CLI parser. The gl
 | `--data.shared_prefix.multimodal.video.count.skew` | float | Skewness of the distribution. Only used when type is 'skew_normal'. |
 | `--data.shared_prefix.multimodal.video.insertion_point` | string | Placement of media within the text prompt. Float in range [0.0, 1.0] (0=start, 1=end), or a Distribution to sample from. |
 | `--data.shared_prefix.multimodal.video.profiles` | JSON | Video profile or list of weighted video profiles for generated videos. |
-| `--data.shared_prefix.multimodal.video.representation` | Enum (mp4, png_frames, jpeg_frames) | Wire-format strategy. ``mp4`` sends one ``video_url`` block carrying an MP4 blob (measures full pipeline including server-side decode). ``png_frames`` and ``jpeg_frames`` send ``frames`` Ã— ``image_url`` blocks at one insertion point in the named encoding (no decode dependency, useful for prefix-cache benchmarks and servers that don't accept ``video_url``). |
+| `--data.shared_prefix.multimodal.video.representation` | Enum (mp4, png_frames, jpeg_frames) | Wire-format strategy. ``mp4`` sends one ``video_url`` block carrying an MP4 blob (measures full pipeline including server-side decode). ``png_frames`` and ``jpeg_frames`` send ``frames`` ¡¿ ``image_url`` blocks at one insertion point in the named encoding (no decode dependency, useful for prefix-cache benchmarks and servers that don't accept ``video_url``). |
 | `--data.shared_prefix.multimodal.audio.count.min` | int | Smallest value the distribution can produce; samples below are clamped. |
 | `--data.shared_prefix.multimodal.audio.count.max` | int | Largest value the distribution can produce; samples above are clamped. |
 | `--data.shared_prefix.multimodal.audio.count.mean` | float | Mean of the distribution. |
@@ -114,7 +114,7 @@ These command line flags are automatically generated from the CLI parser. The gl
 | `--data.multimodal.video.count.skew` | float | Skewness of the distribution. Only used when type is 'skew_normal'. |
 | `--data.multimodal.video.insertion_point` | string | Placement of media within the text prompt. Float in range [0.0, 1.0] (0=start, 1=end), or a Distribution to sample from. |
 | `--data.multimodal.video.profiles` | JSON | Video profile or list of weighted video profiles for generated videos. |
-| `--data.multimodal.video.representation` | Enum (mp4, png_frames, jpeg_frames) | Wire-format strategy. ``mp4`` sends one ``video_url`` block carrying an MP4 blob (measures full pipeline including server-side decode). ``png_frames`` and ``jpeg_frames`` send ``frames`` Ã— ``image_url`` blocks at one insertion point in the named encoding (no decode dependency, useful for prefix-cache benchmarks and servers that don't accept ``video_url``). |
+| `--data.multimodal.video.representation` | Enum (mp4, png_frames, jpeg_frames) | Wire-format strategy. ``mp4`` sends one ``video_url`` block carrying an MP4 blob (measures full pipeline including server-side decode). ``png_frames`` and ``jpeg_frames`` send ``frames`` ¡¿ ``image_url`` blocks at one insertion point in the named encoding (no decode dependency, useful for prefix-cache benchmarks and servers that don't accept ``video_url``). |
 | `--data.multimodal.audio.count.min` | int | Smallest value the distribution can produce; samples below are clamped. |
 | `--data.multimodal.audio.count.max` | int | Largest value the distribution can produce; samples above are clamped. |
 | `--data.multimodal.audio.count.mean` | float | Mean of the distribution. |
@@ -359,6 +359,11 @@ Any extra keys in the dict are passed as kwargs to datasets.load_dataset(). |
 | `--report.request_lifecycle.summary` | boolean | Generate a summary report across the whole run. |
 | `--report.request_lifecycle.per_stage` | boolean | Generate a report for each load stage. |
 | `--report.request_lifecycle.per_request` | boolean | Generate a report with per-request details. |
+| `--report.request_lifecycle.per_request_fields.request` | boolean | Include the raw request payload in per-request report entries. |
+| `--report.request_lifecycle.per_request_fields.response` | boolean | Include the raw response payload in per-request report entries. |
+| `--report.request_lifecycle.per_request_fields.info` | boolean | Include response metadata in per-request report entries. |
+| `--report.request_lifecycle.per_request_fields.response_chunks` | boolean | Include streamed response chunks in per-request metadata. |
+| `--report.request_lifecycle.per_request_fields.computed_metrics` | boolean | Include computed per-request latency and token metrics in report entries. |
 | `--report.request_lifecycle.per_adapter` | boolean | Generate a report for each LoRA adapter. |
 | `--report.request_lifecycle.per_adapter_stage` | boolean | Generate a report for each LoRA adapter within each load stage. |
 | `--report.request_lifecycle.percentiles` | JSON | Percentiles reported for each metric. |
@@ -392,66 +397,3 @@ Any extra keys in the dict are passed as kwargs to datasets.load_dataset(). |
 | `--tokenizer.trust_remote_code` | boolean | Allow the tokenizer to execute code from its repository when loading. |
 | `--tokenizer.token` | str | HuggingFace access token used to download the tokenizer. |
 | `--circuit_breakers` | JSON | Circuit breakers that stop the run when observed metrics cross configured thresholds. |
-| `--load.type` | Enum (constant, poisson, trace_replay, concurrent, trace_session_replay) | Matches load.type in config |
-| `--load.interval` | float | Matches load.interval in config |
-| `--load.stages` | JSON | Matches load.stages in config |
-| `--load.sweep.type` | Enum (geometric, linear) | Matches load.sweep.type in config |
-| `--load.sweep.num_requests` | int | Matches load.sweep.num_requests in config |
-| `--load.sweep.timeout` | float | Matches load.sweep.timeout in config |
-| `--load.sweep.num_stages` | int | Matches load.sweep.num_stages in config |
-| `--load.sweep.stage_duration` | int | Matches load.sweep.stage_duration in config |
-| `--load.sweep.saturation_percentile` | float | Matches load.sweep.saturation_percentile in config |
-| `--load.num_workers` | int | Matches load.num_workers in config |
-| `--load.worker_max_concurrency` | int | Matches load.worker_max_concurrency in config |
-| `--load.worker_max_tcp_connections` | int | Matches load.worker_max_tcp_connections in config |
-| `--load.trace.file` | str | Matches load.trace.file in config |
-| `--load.trace.format` | Enum (AzurePublicDataset) | Matches load.trace.format in config |
-| `--load.circuit_breakers` | JSON | Matches load.circuit_breakers in config |
-| `--load.request_timeout` | float | Matches load.request_timeout in config |
-| `--load.lora_traffic_split` | JSON | Matches load.lora_traffic_split in config |
-| `--load.base_seed` | int | Matches load.base_seed in config |
-| `--metrics.type` | Enum (prometheus, default) | Matches metrics.type in config |
-| `--metrics.prometheus.scrape_interval` | int | Matches metrics.prometheus.scrape_interval in config |
-| `--metrics.prometheus.url` | string | Matches metrics.prometheus.url in config |
-| `--metrics.prometheus.filters` | JSON | Matches metrics.prometheus.filters in config |
-| `--metrics.prometheus.google_managed` | boolean | Matches metrics.prometheus.google_managed in config |
-| `--report.request_lifecycle.summary` | boolean | Matches report.request_lifecycle.summary in config |
-| `--report.request_lifecycle.per_stage` | boolean | Matches report.request_lifecycle.per_stage in config |
-| `--report.request_lifecycle.per_request` | boolean | Matches report.request_lifecycle.per_request in config |
-| `--report.request_lifecycle.per_request_fields.request` | boolean | Matches report.request_lifecycle.per_request_fields.request in config |
-| `--report.request_lifecycle.per_request_fields.response` | boolean | Matches report.request_lifecycle.per_request_fields.response in config |
-| `--report.request_lifecycle.per_request_fields.info` | boolean | Matches report.request_lifecycle.per_request_fields.info in config |
-| `--report.request_lifecycle.per_request_fields.response_chunks` | boolean | Matches report.request_lifecycle.per_request_fields.response_chunks in config |
-| `--report.request_lifecycle.per_request_fields.computed_metrics` | boolean | Matches report.request_lifecycle.per_request_fields.computed_metrics in config |
-| `--report.request_lifecycle.per_adapter` | boolean | Matches report.request_lifecycle.per_adapter in config |
-| `--report.request_lifecycle.per_adapter_stage` | boolean | Matches report.request_lifecycle.per_adapter_stage in config |
-| `--report.request_lifecycle.percentiles` | JSON | Matches report.request_lifecycle.percentiles in config |
-| `--report.request_lifecycle.use_server_output_tokens` | boolean | Matches report.request_lifecycle.use_server_output_tokens in config |
-| `--report.prometheus.summary` | boolean | Matches report.prometheus.summary in config |
-| `--report.prometheus.per_stage` | boolean | Matches report.prometheus.per_stage in config |
-| `--report.session_lifecycle.summary` | boolean | Matches report.session_lifecycle.summary in config |
-| `--report.session_lifecycle.per_stage` | boolean | Matches report.session_lifecycle.per_stage in config |
-| `--report.session_lifecycle.per_session` | boolean | Matches report.session_lifecycle.per_session in config |
-| `--report.goodput.constraints` | JSON | Matches report.goodput.constraints in config |
-| `--storage.local_storage.path` | str | Matches storage.local_storage.path in config |
-| `--storage.local_storage.report_file_prefix` | str | Matches storage.local_storage.report_file_prefix in config |
-| `--storage.google_cloud_storage.path` | str | Matches storage.google_cloud_storage.path in config |
-| `--storage.google_cloud_storage.report_file_prefix` | str | Matches storage.google_cloud_storage.report_file_prefix in config |
-| `--storage.google_cloud_storage.bucket_name` | str | Matches storage.google_cloud_storage.bucket_name in config |
-| `--storage.simple_storage_service.path` | str | Matches storage.simple_storage_service.path in config |
-| `--storage.simple_storage_service.report_file_prefix` | str | Matches storage.simple_storage_service.report_file_prefix in config |
-| `--storage.simple_storage_service.bucket_name` | str | Matches storage.simple_storage_service.bucket_name in config |
-| `--storage.simple_storage_service.endpoint_url` | str | Matches storage.simple_storage_service.endpoint_url in config |
-| `--storage.simple_storage_service.region_name` | str | Matches storage.simple_storage_service.region_name in config |
-| `--storage.simple_storage_service.addressing_style` | string | Matches storage.simple_storage_service.addressing_style in config |
-| `--server.type` | Enum (vllm, sglang, tgi, mock) | Matches server.type in config |
-| `--server.model_name` | str | Matches server.model_name in config |
-| `--server.base_url` | str | Matches server.base_url in config |
-| `--server.ignore_eos` | boolean | Matches server.ignore_eos in config |
-| `--server.api_key` | str | Matches server.api_key in config |
-| `--server.cert_path` | str | Matches server.cert_path in config |
-| `--server.key_path` | str | Matches server.key_path in config |
-| `--tokenizer.pretrained_model_name_or_path` | str | Matches tokenizer.pretrained_model_name_or_path in config |
-| `--tokenizer.trust_remote_code` | boolean | Matches tokenizer.trust_remote_code in config |
-| `--tokenizer.token` | str | Matches tokenizer.token in config |
-| `--circuit_breakers` | JSON | Matches circuit_breakers in config |
