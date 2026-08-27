@@ -1,9 +1,12 @@
+from typing import cast
+
 import pytest
 
 from inference_perf.apis import ErrorResponseInfo, InferenceInfo, RequestLifecycleMetric, StreamedResponseMetrics
 from inference_perf.config import PerRequestFieldsConfig
 from inference_perf.payloads import RequestMetrics, Text
 from inference_perf.reportgen.base import build_per_request_lifecycle_entry
+from inference_perf.utils.custom_tokenizer import CustomTokenizer
 
 
 class _FakeTokenizer:
@@ -95,7 +98,9 @@ def test_per_request_fields_computed_metrics_can_be_enabled() -> None:
 def test_per_request_fields_disabled_computed_metrics_does_not_mutate_token_metrics() -> None:
     metric = _metric()
 
-    build_per_request_lifecycle_entry(metric, PerRequestFieldsConfig(computed_metrics=False), tokenizer=_FakeTokenizer())
+    build_per_request_lifecycle_entry(
+        metric, PerRequestFieldsConfig(computed_metrics=False), tokenizer=cast(CustomTokenizer, _FakeTokenizer())
+    )
 
     assert isinstance(metric.info.response_metrics, StreamedResponseMetrics)
     assert metric.info.response_metrics.output_tokens == 2
@@ -135,7 +140,7 @@ def test_per_request_fields_computed_metrics_uses_tokenizer_corrected_chunks() -
     )
 
     entry = build_per_request_lifecycle_entry(
-        metric, PerRequestFieldsConfig(computed_metrics=True), tokenizer=_FakeTokenizer()
+        metric, PerRequestFieldsConfig(computed_metrics=True), tokenizer=cast(CustomTokenizer, _FakeTokenizer())
     )
 
     assert entry["info"]["response_metrics"]["output_token_times"] == pytest.approx([1.2, 1.6, 1.6])
