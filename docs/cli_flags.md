@@ -82,7 +82,7 @@ These command line flags are automatically generated from the CLI parser. The gl
 | `--data.shared_prefix.multimodal.video.count.skew` | float | Skewness of the distribution. Only used when type is 'skew_normal'. |
 | `--data.shared_prefix.multimodal.video.insertion_point` | string | Placement of media within the text prompt. Float in range [0.0, 1.0] (0=start, 1=end), or a Distribution to sample from. |
 | `--data.shared_prefix.multimodal.video.profiles` | JSON | Video profile or list of weighted video profiles for generated videos. |
-| `--data.shared_prefix.multimodal.video.representation` | Enum (mp4, png_frames, jpeg_frames) | Wire-format strategy. ``mp4`` sends one ``video_url`` block carrying an MP4 blob (measures full pipeline including server-side decode). ``png_frames`` and ``jpeg_frames`` send ``frames`` ¡¿ ``image_url`` blocks at one insertion point in the named encoding (no decode dependency, useful for prefix-cache benchmarks and servers that don't accept ``video_url``). |
+| `--data.shared_prefix.multimodal.video.representation` | Enum (mp4, png_frames, jpeg_frames) | Wire-format strategy. ``mp4`` sends one ``video_url`` block carrying an MP4 blob (measures full pipeline including server-side decode). ``png_frames`` and ``jpeg_frames`` send ``frames`` Ã— ``image_url`` blocks at one insertion point in the named encoding (no decode dependency, useful for prefix-cache benchmarks and servers that don't accept ``video_url``). |
 | `--data.shared_prefix.multimodal.audio.count.min` | int | Smallest value the distribution can produce; samples below are clamped. |
 | `--data.shared_prefix.multimodal.audio.count.max` | int | Largest value the distribution can produce; samples above are clamped. |
 | `--data.shared_prefix.multimodal.audio.count.mean` | float | Mean of the distribution. |
@@ -114,7 +114,7 @@ These command line flags are automatically generated from the CLI parser. The gl
 | `--data.multimodal.video.count.skew` | float | Skewness of the distribution. Only used when type is 'skew_normal'. |
 | `--data.multimodal.video.insertion_point` | string | Placement of media within the text prompt. Float in range [0.0, 1.0] (0=start, 1=end), or a Distribution to sample from. |
 | `--data.multimodal.video.profiles` | JSON | Video profile or list of weighted video profiles for generated videos. |
-| `--data.multimodal.video.representation` | Enum (mp4, png_frames, jpeg_frames) | Wire-format strategy. ``mp4`` sends one ``video_url`` block carrying an MP4 blob (measures full pipeline including server-side decode). ``png_frames`` and ``jpeg_frames`` send ``frames`` ¡¿ ``image_url`` blocks at one insertion point in the named encoding (no decode dependency, useful for prefix-cache benchmarks and servers that don't accept ``video_url``). |
+| `--data.multimodal.video.representation` | Enum (mp4, png_frames, jpeg_frames) | Wire-format strategy. ``mp4`` sends one ``video_url`` block carrying an MP4 blob (measures full pipeline including server-side decode). ``png_frames`` and ``jpeg_frames`` send ``frames`` Ã— ``image_url`` blocks at one insertion point in the named encoding (no decode dependency, useful for prefix-cache benchmarks and servers that don't accept ``video_url``). |
 | `--data.multimodal.audio.count.min` | int | Smallest value the distribution can produce; samples below are clamped. |
 | `--data.multimodal.audio.count.max` | int | Largest value the distribution can produce; samples above are clamped. |
 | `--data.multimodal.audio.count.mean` | float | Mean of the distribution. |
