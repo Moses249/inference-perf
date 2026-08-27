@@ -810,7 +810,6 @@ def build_per_request_lifecycle_entry(
     entry: dict[str, Any] = {
         "start_time": metric.start_time,
         "end_time": metric.end_time,
-        "error": metric.error.model_dump() if metric.error else None,
     }
 
     if fields.request:
@@ -841,6 +840,8 @@ def build_per_request_lifecycle_entry(
             "ttft_slo_sec": metric.ttft_slo_sec,
             "tpot_slo_sec": metric.tpot_slo_sec,
         }
+
+    entry["error"] = metric.error.model_dump() if metric.error else None
 
     return entry
 

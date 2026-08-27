@@ -127,7 +127,7 @@ def test_per_request_fields_computed_metrics_uses_tokenizer_corrected_chunks() -
         info=InferenceInfo(
             request_metrics=RequestMetrics(text=Text(input_tokens=5)),
             response_metrics=StreamedResponseMetrics(
-                output_tokens=3,
+                output_tokens=4,
                 response_chunks=[
                     '{"choices": [{"text": "hello"}]}',
                     '{"choices": [{"text": " world foo"}]}',
@@ -145,10 +145,10 @@ def test_per_request_fields_computed_metrics_uses_tokenizer_corrected_chunks() -
 
     assert entry["info"]["response_metrics"]["output_token_times"] == pytest.approx([1.2, 1.6, 1.6])
     assert entry["computed_metrics"]["time_to_first_token"] == pytest.approx(0.2)
-    assert entry["computed_metrics"]["time_per_output_token"] == pytest.approx(0.2)
+    assert entry["computed_metrics"]["time_per_output_token"] == pytest.approx(0.1333333333333334)
     assert entry["computed_metrics"]["inter_token_latency"] == pytest.approx(0.2)
     assert entry["computed_metrics"]["inter_token_latencies"] == pytest.approx([0.4, 0.0])
     assert entry["computed_metrics"]["input_tokens"] == 5
     # The correction sets output_token_times only; output_tokens keeps the API layer's
     # whole-message count (see #564).
-    assert entry["computed_metrics"]["output_tokens"] == 3
+    assert entry["computed_metrics"]["output_tokens"] == 4
